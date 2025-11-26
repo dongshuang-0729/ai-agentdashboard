@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent 六大场景落地</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/recharts@2.5.0/dist/Recharts.js"></script>
+    <script src="https://unpkg.com/lucide-react@0.263.1/dist/umd/lucide-react.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        // 把我Artifact里的完整React代码粘贴到这里
+import React, { useState } from 'react';
+import { Award, Eye, Brain, MessageSquare, Smartphone, Zap, Sparkles } from 'lucide-react';
+
+const Dashboard = () => {
+  const [selectedScene, setSelectedScene] = useState(null);
+
+  const scenesData = [
+    {
+      id: 1,
+      title: '深度研究功能',
+      icon: Brain,
+      product: '小爱',
+      status: 'OS3发布会亮相',
+      highlights: [
+        '完成深度行业对比调研与小爱分享',
+        '快速DeepResearch原型Demo验证',
+        '构建全链路评测体系',
+        '成功交付并亮相OS3发布会'
+      ],
+      gradient: 'from-purple-600 via-purple-500 to-pink-500',
+      iconBg: 'from-purple-500/30 to-pink-500/30',
+      iconColor: 'text-purple-200',
+      borderColor: 'border-purple-400/50',
+      hoverBorder: 'hover:border-purple-400',
+      shadowColor: 'shadow-purple-500/30',
+      hoverShadow: 'hover:shadow-purple-500/20',
+      badge: 'OS3发布会'
+    },
+    {
+      id: 2,
+      title: '多模态总结',
+      icon: Eye,
+      product: '小爱眼镜',
+      status: '可用率 50% → 82%',
+      highlights: [
+        '整合录音转写文本与图像信息',
+        '利用图片信息纠正ASR错误',
+        'PPT核心信息融入摘要',
+        '图文并茂结构化输出'
+      ],
+      gradient: 'from-blue-600 via-blue-500 to-cyan-500',
+      iconBg: 'from-blue-500/30 to-cyan-500/30',
+      iconColor: 'text-blue-200',
+      borderColor: 'border-blue-400/50',
+      hoverBorder: 'hover:border-blue-400',
+      shadowColor: 'shadow-blue-500/30',
+      hoverShadow: 'hover:shadow-blue-500/20',
+      badge: '+32%'
+    },
+    {
+      id: 3,
+      title: '小爱产品问答',
+      icon: MessageSquare,
+      product: '小爱产品',
+      status: '效果超过豆包',
+      highlights: [
+        '6个子类全部上线小爱',
+        'badcase解决率提升至83.9%',
+        '商品评价满意度 51.85% → 81.48%',
+        '对比评价满意度 65.71% → 82.05%'
+      ],
+      gradient: 'from-emerald-600 via-green-500 to-teal-500',
+      iconBg: 'from-emerald-500/30 to-teal-500/30',
+      iconColor: 'text-emerald-200',
+      borderColor: 'border-emerald-400/50',
+      hoverBorder: 'hover:border-emerald-400',
+      shadowColor: 'shadow-emerald-500/30',
+      hoverShadow: 'hover:shadow-emerald-500/20',
+      badge: '超越'
+    },
+    {
+      id: 4,
+      title: '实时字幕翻译',
+      icon: Award,
+      product: '实时字幕',
+      status: '年省150万',
+      highlights: [
+        '英译中效果超过微软',
+        '自研模型替换第三方',
+        '3月26日完成全量上线',
+        '预估每年节省成本150万元'
+      ],
+      gradient: 'from-orange-600 via-orange-500 to-amber-500',
+      iconBg: 'from-orange-500/30 to-amber-500/30',
+      iconColor: 'text-orange-200',
+      borderColor: 'border-orange-400/50',
+      hoverBorder: 'hover:border-orange-400',
+      shadowColor: 'shadow-orange-500/30',
+      hoverShadow: 'hover:shadow-orange-500/20',
+      badge: '¥150万'
+    },
+    {
+      id: 5,
+      title: '端侧生文模型',
+      icon: Smartphone,
+      product: '手机软件部',
+      status: '端侧首次落地',
+      highlights: [
+        '摘要、纠错、扩写、润色四大功能',
+        '端侧大语言模型首次应用',
+        '深度整合至玄戒芯片',
+        '效果媲美云端模型'
+      ],
+      gradient: 'from-indigo-600 via-indigo-500 to-purple-500',
+      iconBg: 'from-indigo-500/30 to-purple-500/30',
+      iconColor: 'text-indigo-200',
+      borderColor: 'border-indigo-400/50',
+      hoverBorder: 'hover:border-indigo-400',
+      shadowColor: 'shadow-indigo-500/30',
+      hoverShadow: 'hover:shadow-indigo-500/20',
+      badge: '首次'
+    },
+    {
+      id: 6,
+      title: '记忆收藏问答',
+      icon: Zap,
+      product: '小爱记忆',
+      status: 'OS3发布会亮相',
+      highlights: [
+        '计算类可用率 56% → 94% (+38%)',
+        '计算类满意度 46% → 92% (+46%)',
+        '昵称问答满意度提升18%',
+        'qwen2.5-14B-1M版本升级'
+      ],
+      gradient: 'from-rose-600 via-pink-500 to-fuchsia-500',
+      iconBg: 'from-rose-500/30 to-fuchsia-500/30',
+      iconColor: 'text-rose-200',
+      borderColor: 'border-rose-400/50',
+      hoverBorder: 'hover:border-rose-400',
+      shadowColor: 'shadow-rose-500/30',
+      hoverShadow: 'hover:shadow-rose-500/20',
+      badge: '+46%'
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white p-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center justify-center mb-6">
+            <Sparkles className="w-12 h-12 text-cyan-400 animate-pulse" />
+          </div>
+          <h1 className="text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400">
+            AI Agent 六大场景落地
+          </h1>
+          <p className="text-2xl text-gray-300 mt-4">
+            推进「人车家全生态」体验提升
+          </p>
+          <div className="mt-6 inline-block bg-white/5 backdrop-blur-lg px-6 py-3 rounded-full border border-white/10">
+            <span className="text-gray-300">点击卡片查看详细成果 👇</span>
+          </div>
+        </div>
+
+        {/* 场景落地矩阵 */}
+        <div className="grid grid-cols-3 gap-8 mb-12">
+          {scenesData.map((scene) => {
+            const Icon = scene.icon;
+            const isSelected = selectedScene === scene.id;
+            return (
+              <div
+                key={scene.id}
+                className={`bg-gradient-to-br ${scene.gradient} rounded-3xl p-8 cursor-pointer transform transition-all duration-300 text-center ${
+                  isSelected 
+                    ? 'scale-105 ring-4 ring-white/40 shadow-2xl' 
+                    : `hover:scale-102 hover:shadow-xl ${scene.hoverShadow}`
+                }`}
+                onClick={() => setSelectedScene(isSelected ? null : scene.id)}
+              >
+                {/* 头部 */}
+                <div className="flex flex-col items-center mb-6">
+                  <div className={`bg-gradient-to-br ${scene.iconBg} backdrop-blur-sm p-4 rounded-2xl border border-white/20 mb-4`}>
+                    <Icon className={`w-12 h-12 ${scene.iconColor}`} />
+                  </div>
+                  <div className="flex gap-2 justify-center flex-wrap">
+                    <span className="bg-white/95 text-gray-900 px-4 py-1 rounded-full text-sm font-bold shadow-lg">
+                      {scene.badge}
+                    </span>
+                    <span className="bg-black/30 backdrop-blur-sm border border-white/20 px-3 py-1 rounded-full text-xs font-semibold">
+                      {scene.product}
+                    </span>
+                  </div>
+                </div>
+
+                {/* 标题和状态 */}
+                <h3 className="text-2xl font-bold mb-3 text-white">{scene.title}</h3>
+                <p className="text-base font-semibold mb-6 bg-black/30 backdrop-blur-sm inline-block px-4 py-2 rounded-lg border border-white/20">
+                  {scene.status}
+                </p>
+
+                {/* 详细内容 */}
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${
+                    isSelected ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                  }`}
+                >
+                  <div className="bg-black/40 backdrop-blur-md rounded-xl p-5 space-y-3 mt-4 border border-white/10">
+                    {scene.highlights.map((highlight, idx) => (
+                      <div key={idx} className="flex items-start text-left">
+                        <span className="text-white mr-3 text-lg flex-shrink-0">✓</span>
+                        <span className="text-sm leading-relaxed text-white/90">{highlight}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 展开提示 */}
+                {!isSelected && (
+                  <div className="mt-4 text-center text-sm opacity-80">
+                    点击查看详情 →
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* 底部统计 */}
+        <div className="bg-gradient-to-r from-slate-800/50 via-slate-900/50 to-slate-800/50 backdrop-blur-lg rounded-3xl p-10 border border-white/10">
+          <div className="grid grid-cols-3 gap-8 text-center">
+            <div>
+              <div className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400 mb-2">6</div>
+              <div className="text-gray-300 text-lg">场景落地</div>
+            </div>
+            <div>
+              <div className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400 mb-2">2</div>
+              <div className="text-gray-300 text-lg">OS3发布会亮相</div>
+            </div>
+            <div>
+              <div className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-amber-400 mb-2">¥150万</div>
+              <div className="text-gray-300 text-lg">年度成本节省</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="text-center mt-12 text-gray-400">
+          <p className="text-lg">🚀 从零到一 · 多场景落地 · 持续迭代</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;
+    </script>
+</body>
+</html>
